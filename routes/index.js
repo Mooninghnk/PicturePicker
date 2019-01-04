@@ -1,31 +1,36 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+const fs = require('fs')
+const path = require('path')
+var router = express.Router()
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-const fs = require('fs');
-const path = require("path");
-  let pic = [];
-  let pathTo = path.join(__dirname, "../public/img/picturesFolders");
-  fs.readdir(pathTo, (error, files) => {
-    if (error) {console.log("can't read folder");}
-    files.shift();
-    for (let i = 0; i < files.length; i++) {
-      let dir = files[i].toString();
-      fs.readdir(pathTo+"/" + dir, (error, file) => {
-        if (error) {console.log("can't read the file2");}
-        pic.push("img/picturesFolders/" + dir +"/" + file[1]);
-        if (pic.length == files.length) {
-            res.render('index', {
-              title: 'Web App',
-              pic
-
-
-            });
-          console.log(pic);}
+function readdir (dir) {
+  return new Promise((resolve, reject) => {
+    fs.readdir(dir, (error, paths) => {
+      if (error) {
+        console.log(error, "can't read the path")
+        reject("can't read the path")
+      }
+      resolve(paths)
     })
-    }
   })
+}
+/* GET home page. */
+router.get('/', async function (req, res, next) {
+  let pic = [];
+  let pathTo = path.join(__dirname, '../public/img/picturesFolders');
+  let files = await readdir(pathTo);
+  files.shift();
+  files.map(async file => {
+    let file2 = await readdir(pathTo + '/' + file);
+    file2.shift();
+    pic.push('img/picturesFolders/' + file + '/' + file2[0]);
+    if (pic.length == files.length) {
+      res.render('index', {
+        title: 'Web App',
+        pic
+      });
+    }
+  });
 });
 
 module.exports = router
