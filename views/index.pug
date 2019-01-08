@@ -3,8 +3,10 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  
   .pics
     each val in pic
       .pic
         img(src=val, alt="")
+  input(type="file" id="files" name="files[]" multiple)
+  output(id="list")
+  script(src="js/index.js")

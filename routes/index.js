@@ -1,23 +1,24 @@
 var express = require('express')
 const fs = require('fs')
 const path = require('path')
-var router = express.Router()
+var router = express.Router();
 
 function readdir (dir) {
   return new Promise((resolve, reject) => {
     fs.readdir(dir, (error, paths) => {
       if (error) {
-        console.log(error, "can't read the path")
-        reject("can't read the path")
+        console.log(error, "can't read the path");
+        reject("can't read the path");
       }
-      resolve(paths)
-    })
-  })
+      resolve(paths);
+    });
+  });
 }
+
 /* GET home page. */
 router.get('/', async function (req, res, next) {
   let pic = [];
-  let pathTo = path.join(__dirname, '../public/img/picturesFolders');
+  let pathTo = path.join(__dirname, '/../public/img/picturesFolders');
   let files = await readdir(pathTo);
   files.shift();
   files.map(async file => {
@@ -32,5 +33,10 @@ router.get('/', async function (req, res, next) {
     }
   });
 });
+
+router.post('/api/upload', (req, res) => {
+  console.log(req);
+  res.end("ok");
+})
 
 module.exports = router
