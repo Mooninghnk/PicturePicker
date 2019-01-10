@@ -1,7 +1,9 @@
 var express = require('express')
+var bodyParser = require('body-parser')
 const fs = require('fs')
 const path = require('path')
 var router = express.Router();
+
 
 function readdir (dir) {
   return new Promise((resolve, reject) => {
@@ -34,9 +36,25 @@ router.get('/', async function (req, res, next) {
   });
 });
 
-router.post('/api/upload', (req, res) => {
-  console.log(req);
-  res.end("ok");
+router.use(bodyParser.text());
+
+router.all('*', (req, res, next) => {
+  req.body = JSON.parse(req.body);
+  next();
 })
+
+router.post('/api/upload', (req, res) => {
+  console.log(req.body); 
+  if (req.body.binary) fs.appendFile(req.body.filename, req.body.chunk, 'binary', append)
+  else fs.appendFile(req.body.filename, req.body.chunk,  append);
+  
+  function append(error,data)  {
+    if(error) console.log(error);
+    else {console.log("chunk written");}
+  }
+  
+  res.end('ok');
+})
+
 
 module.exports = router

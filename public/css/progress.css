@@ -1,0 +1,7 @@
+#progress span {
+    background: black;
+    width: 0%;
+    display: inline-block;
+    height: 10px;
+    border-radius: 5px;
+}
