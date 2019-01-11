@@ -1,3 +1,4 @@
+
 const input = document.querySelector('#files');
 input.addEventListener('change', onFile);
 
@@ -19,7 +20,8 @@ function onFile(evt) {
 
     function nextChunk() {
         if (start > file.size) {
-            return "end"
+            //return "end"
+            location.reload();
         }
         let end = chunkSize + start;
         if (end > file.size) end = file.size;

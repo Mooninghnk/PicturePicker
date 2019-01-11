@@ -21,3 +21,7 @@ a {
 body {
   color: aliceblue;
 }
+#remove {
+  height: 50%;
+  width: 30%;
+}

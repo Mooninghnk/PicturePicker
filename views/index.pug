@@ -6,8 +6,9 @@ block content
   .pics
     each val in pic
       .pic
-        img(src=val, alt="")
+        img(src="/uploads/"+val, alt="")
   input(type="file" id="files" name="files[]" multiple)
+  button(id='remove', onclick='remove()') remove
   output(id="list")
   script(src="js/index.js")
   div#progress
