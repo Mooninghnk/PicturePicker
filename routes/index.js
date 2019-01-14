@@ -55,7 +55,6 @@ router.get('/', async function (req, res, ) {
 
 });
 
-
 router.use(bodyParser.text());
 
 router.all('*', (req, res, next) => {
@@ -63,7 +62,7 @@ router.all('*', (req, res, next) => {
   next();
 })
 
-router.post('/api/upload', (req, res) => {
+router.post('/api/upload',async (req, res) => {
   console.log(req.body);
   if (req.body.binary) fs.appendFile(touploads + req.body.filename, req.body.chunk, 'binary', append)
   else fs.appendFile(touploads + req.body.filename, req.body.chunk, append);
@@ -77,6 +76,17 @@ router.post('/api/upload', (req, res) => {
 
   res.end('ok');
 })
+
+
+router.post('/api/remove', async (req, res) => {
+ console.log(touploads);
+ fs.unlink(touploads + "download.jpg", (err, res) => {
+   console.log(err, res);
+ })
+  res.end("hello");
+  // fs.unlink(touploads)
+})
+
 
 
 module.exports = router

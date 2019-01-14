@@ -1,7 +1,10 @@
-
 const input = document.querySelector('#files');
 input.addEventListener('change', onFile);
 
+
+//
+//
+//
 function onFile(evt) {
     let output = [];
 
@@ -17,7 +20,7 @@ function onFile(evt) {
     let progress = 0;
     let percent = 12.5;
     let binary = false;
-
+    
     function nextChunk() {
         if (start > file.size) {
             //return "end"
@@ -69,4 +72,24 @@ function onFile(evt) {
 
             })
     });
+    
+}
+
+
+//
+// remove
+//
+function remove () {
+    fetch('./api/remove', {
+        method: "POST",
+        body: JSON.stringify("Hello")
+    })
+    .then((res) => {
+        console.log(res);
+        return res.text();
+    })
+    .then((data) => {
+        location.reload();
+        console.log(data);
+    })
 }
